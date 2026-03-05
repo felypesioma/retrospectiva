@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrospectiva do Nosso Amor</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #fff5f5;
+            text-align: center;
+            color: #4a4a4a;
+            padding: 20px;
+        }
+
+        #container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .bloco-tempo {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .unidade {
+            background: #ffe0e0;
+            padding: 10px;
+            border-radius: 10px;
+            min-width: 60px;
+        }
+
+        .valor {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #d63384;
+        }
+
+        .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #888;
+        }
+
+        h1 {
+            color: #d63384;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="title">
+            <h1>Nossa Retrospectiva</h1>
+            <h3>Desde o primeiro beijo até hoje</h3>
+        </div>
+
+        <div id="timer">
+            <p>Desde esse dia, já se passaram:</p>
+            <div class="bloco-tempo">
+                <div class="unidade"><span id="anosF" class="valor">0</span><span class="label">Anos</span></div>
+                <div class="unidade"><span id="mesesF" class="valor">0</span><span class="label">Meses</span></div>
+                <div class="unidade"><span id="diasF" class="valor">0</span><span class="label">Dias</span></div>
+                <div class="unidade"><span id="horasF" class="valor">0</span><span class="label">Horas</span></div>
+                <div class="unidade"><span id="minutosF" class="valor">0</span><span class="label">Minutos</span></div>
+                <div class="unidade"><span id="segundosF" class="valor">0</span><span class="label">Segundos</span>
+                </div>
+            </div>
+
+            <hr>
+
+            <p>Porém, oficializamos no dia 7 de fevereiro de 2026, então fazem:</p>
+            <div class="bloco-tempo">
+                <div class="unidade"><span id="anosN" class="valor">0</span><span class="label">Anos</span></div>
+                <div class="unidade"><span id="mesesN" class="valor">0</span><span class="label">Meses</span></div>
+                <div class="unidade"><span id="diasN" class="valor">0</span><span class="label">Dias</span></div>
+                <div class="unidade"><span id="horasN" class="valor">0</span><span class="label">Horas</span></div>
+                <div class="unidade"><span id="minutosN" class="valor">0</span><span class="label">Minutos</span></div>
+                <div class="unidade"><span id="segundosN" class="valor">0</span><span class="label">Segundos</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dataFicada = new Date(2025, 10, 7, 21, 30, 0); // 7 Dez 2025
+        const dataNamoro = new Date(2026, 1, 7, 15, 30, 0); // 7 Fev 2026 (Nota: Mês 1 é Fevereiro)
+
+        function calcularDiferenca(dataInicial) {
+            const agora = new Date();
+
+            let anos = agora.getFullYear() - dataInicial.getFullYear();
+            let meses = agora.getMonth() - dataInicial.getMonth();
+            let dias = agora.getDate() - dataInicial.getDate();
+            let horas = agora.getHours() - dataInicial.getHours();
+            let minutos = agora.getMinutes() - dataInicial.getMinutes();
+            let segundos = agora.getSeconds() - dataInicial.getSeconds();
+
+            // Lógica de ajuste (empréstimo)
+            if (segundos < 0) { segundos += 60; minutos--; }
+            if (minutos < 0) { minutos += 60; horas--; }
+            if (horas < 0) { horas += 24; dias--; }
+            if (dias < 0) {
+                const ultimoDiaMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
+                dias += ultimoDiaMesAnterior;
+                meses--;
+            }
+            if (meses < 0) {
+                meses += 12;
+                anos--;
+            }
+
+            return { anos, meses, dias, horas, minutos, segundos };
+        }
+
+        function atualizarTelas() {
+            const tempoF = calcularDiferenca(dataFicada);
+            const tempoN = calcularDiferenca(dataNamoro);
+
+            // Atualiza interface "Ficada"
+            document.getElementById('anosF').innerText = tempoF.anos;
+            document.getElementById('mesesF').innerText = tempoF.meses;
+            document.getElementById('diasF').innerText = tempoF.dias;
+            document.getElementById('horasF').innerText = tempoF.horas;
+            document.getElementById('minutosF').innerText = tempoF.minutos;
+            document.getElementById('segundosF').innerText = tempoF.segundos;
+
+            // Atualiza interface "Namoro"
+            document.getElementById('anosN').innerText = tempoN.anos;
+            document.getElementById('mesesN').innerText = tempoN.meses;
+            document.getElementById('diasN').innerText = tempoN.dias;
+            document.getElementById('horasN').innerText = tempoN.horas;
+            document.getElementById('minutosN').innerText = tempoN.minutos;
+            document.getElementById('segundosN').innerText = tempoN.segundos;
+        }
+
+        setInterval(atualizarTelas, 1000);
+        atualizarTelas();
+    </script>
+</body>
+
+</html>
