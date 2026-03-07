@@ -87,6 +87,7 @@
 
         .container-fotos .foto-card h2 {
             margin: 0;
+            text-align: center;
         }
 
         .container-fotos .foto-card p {
@@ -388,6 +389,15 @@
         <h2>Aqui vão alguns momentos que me marcaram e que tornaram nosso relacionamento cada vez mais especial</h2>
     </div>
     <div class="container-fotos">
+        <div class="video-card">
+            <h2>O primeiro rolê que me marcou</h2>
+            <video controls>
+                <source src="imgs/primeiro.mp4" type="video/mp4">
+            </video>
+            <p>07/10/2025</p>
+        </div>
+    </div>
+    <div class="container-fotos">
         <div class="foto-card">
             <h2>Algumas horas depois que ficamos pela primeira vez</h2>
             <img src="imgs/dia_7-11.JPEG" alt="Foto quadrada" />
@@ -417,7 +427,7 @@
     </div>
     <div class="container-fotos">
         <div class="foto-card">
-            <h2>Quando fomos ano Largo a primeira vez</h2>
+            <h2>Quando fomos ao Largo pela primeira vez</h2>
             <img src="imgs/largo.JPEG" alt="Foto quadrada" />
             <p>27/11/2025</p>
         </div>
@@ -431,7 +441,7 @@
     </div>
     <div class="container-fotos">
         <div class="foto-card">
-            <h2>Quando mudamos o cantinho das beats</h2>
+            <h2>Quando mudamos o cantinho do Senai</h2>
             <img src="imgs/cantinho.JPEG" alt="Foto quadrada" />
             <p>09/12/2025</p>
         </div>
@@ -468,21 +478,28 @@
         <div class="foto-card">
             <h2>E enfim o grande dia</h2>
             <img src="imgs/namor1.JPEG" alt="Foto quadrada" />
-            <p>07/02/2025</p>
+            <p>07/02/2026</p>
         </div>
     </div>
     <div class="container-fotos">
         <div class="foto-card">
             <h2></h2>
             <img src="imgs/namoro2.JPEG" alt="Foto quadrada" />
-            <p>07/02/2025</p>
+            <p>07/02/2026</p>
+        </div>
+    </div>
+    <div class="container-fotos">
+        <div class="foto-card">
+            <h2></h2>
+            <img src="imgs/alianca.JPG" alt="Foto quadrada" />
+            <p>07/02/2026</p>
         </div>
     </div>
     <div class="container-fotos">
         <div class="foto-card">
             <h2>Quando vimos os jogadores do corinthians de perto</h2>
             <img src="imgs/hotel.JPEG" alt="Foto quadrada" />
-            <p>19/02/2025</p>
+            <p>19/02/2026</p>
         </div>
     </div>
     <div class="container-fotos">
@@ -503,27 +520,25 @@
 
         function calcularDiferenca(dataInicial) {
             const agora = new Date();
+            const diffMs = agora - dataInicial;
 
-            let anos = agora.getFullYear() - dataInicial.getFullYear();
-            let meses = agora.getMonth() - dataInicial.getMonth();
-            let dias = agora.getDate() - dataInicial.getDate();
-            let horas = agora.getHours() - dataInicial.getHours();
-            let minutos = agora.getMinutes() - dataInicial.getMinutes();
-            let segundos = agora.getSeconds() - dataInicial.getSeconds();
+            if (diffMs < 0) {
+                return { anos: 0, meses: 0, dias: 0, horas: 0, minutos: 0, segundos: 0 };
+            }
 
-            // Lógica de ajuste (empréstimo)
-            if (segundos < 0) { segundos += 60; minutos--; }
-            if (minutos < 0) { minutos += 60; horas--; }
-            if (horas < 0) { horas += 24; dias--; }
-            if (dias < 0) {
-                const ultimoDiaMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
-                dias += ultimoDiaMesAnterior;
-                meses--;
-            }
-            if (meses < 0) {
-                meses += 12;
-                anos--;
-            }
+            const totalSegundos = Math.floor(diffMs / 1000);
+            const totalMinutos = Math.floor(totalSegundos / 60);
+            const totalHoras = Math.floor(totalMinutos / 60);
+            const totalDias = Math.floor(totalHoras / 24);
+
+            const anos = Math.floor(totalDias / 365);
+            const diasAposAnos = totalDias - anos * 365;
+            const meses = Math.floor(diasAposAnos / 30);
+            const dias = diasAposAnos - meses * 30;
+
+            const horas = totalHoras % 24;
+            const minutos = totalMinutos % 60;
+            const segundos = totalSegundos % 60;
 
             return { anos, meses, dias, horas, minutos, segundos };
         }
